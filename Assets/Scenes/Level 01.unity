@@ -190,6 +190,40 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d983454e96c62b54ba3318d2da8ccc24, type: 3}
+--- !u!1 &438185385 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8926842346368168575, guid: d983454e96c62b54ba3318d2da8ccc24,
+    type: 3}
+  m_PrefabInstance: {fileID: 438185384}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &438185386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438185385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a957df2e4b6ac6c4aaba0ccb9c68aabf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &438185387
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438185385}
+  serializedVersion: 2
+  m_Mass: 0.1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!108 &705507994 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 85080514647332192, guid: 6e36560f1db201649a4e1b46158c8da0,
