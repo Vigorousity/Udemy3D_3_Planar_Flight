@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
 {
@@ -10,6 +8,9 @@ public class Rocket : MonoBehaviour
 
     private Rigidbody rb;
     private AudioSource audioSource;
+
+    private enum PlayerStates { alive, dying, transcending };
+    PlayerStates state = PlayerStates.alive;
 
     // Start is called before the first frame update
     void Start()
@@ -21,22 +22,51 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ProcessThrusting();
-        ProcessRotations();
+        if (state == PlayerStates.alive)
+        {
+            ProcessThrusting();
+            ProcessRotations();
+        }
+
+        else
+        {
+            ThrustSound(false);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (state != PlayerStates.alive)
+            return;
+
         switch (collision.gameObject.tag)
         {
             case "Safe":
-                print("Safe");
+                // Do nothing
+                break;
+
+            case "Finish":
+                state = PlayerStates.transcending;
+                Invoke("LoadNextLevel", 1f);
                 break;
 
             default:
-                print("Dead");
+                state = PlayerStates.dying;
+                Invoke("ResetLevel", 1f);
                 break;
         }
+    }
+
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene(1);
+        state = PlayerStates.alive;
+    }
+
+    private void ResetLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        state = PlayerStates.alive;
     }
 
     private void ProcessThrusting()
