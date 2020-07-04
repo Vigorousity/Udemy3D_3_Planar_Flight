@@ -17,6 +17,7 @@ public class Oscillator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Sets the startingPosition variable to the game object's starting position
         startingPosition = this.transform.position;
     }
 
