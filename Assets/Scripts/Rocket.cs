@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Rocket : MonoBehaviour
@@ -23,9 +24,20 @@ public class Rocket : MonoBehaviour
     private enum PlayerStates { alive, dying, transcending }; // Creates an enumerator with 3 possible values for states
     PlayerStates state = PlayerStates.alive; // Sets the initial state
 
+    private bool immortal = false;
+
+    private int nextLevel;
+
     // Start is called before the first frame update
     void Start()
     {
+        nextLevel = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextLevel >= SceneManager.sceneCountInBuildSettings)
+        {
+            nextLevel = 0;
+        }
+
         rb = this.GetComponent<Rigidbody>();
         audioSource = this.GetComponent<AudioSource>();
     }
@@ -38,6 +50,11 @@ public class Rocket : MonoBehaviour
         {
             ProcessThrusting();
             ProcessRotations();
+
+            if (Debug.isDebugBuild)
+            {
+                DebugCommands();
+            }
         }
 
         // If state != alive, stop the thrusting sounds and particles
@@ -48,10 +65,22 @@ public class Rocket : MonoBehaviour
         }
     }
 
+    private void DebugCommands()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextLevel();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            immortal = !immortal;
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (state != PlayerStates.alive)
-            return;
+        if (state != PlayerStates.alive) return;
 
         switch (collision.gameObject.tag)
         {
@@ -71,7 +100,7 @@ public class Rocket : MonoBehaviour
 
     private void LoadNextLevel()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(nextLevel); //TODO: Add last level checking
         state = PlayerStates.alive;
     }
 
@@ -130,6 +159,7 @@ public class Rocket : MonoBehaviour
 
     private void Death()
     {
+        if (immortal) return;
         audioSource.Stop();
         audioSource.volume = 0.5f;
         audioSource.PlayOneShot(deathExplosionAudioClip);
