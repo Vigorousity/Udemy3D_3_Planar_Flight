@@ -45,6 +45,11 @@ public class Rocket : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         // Checks if the current state == alive before processing thrust
         if (state == PlayerStates.alive)
         {
@@ -180,7 +185,8 @@ public class Rocket : MonoBehaviour
 
     private void ProcessRotations()
     {
-        rb.freezeRotation = true; // Gives manual control to rotations
+        rb.angularVelocity = Vector3.zero;
+
         float rotationPerFrame = rotationSpeed * Time.deltaTime;
 
         if (Input.GetKey(KeyCode.A))
@@ -192,7 +198,5 @@ public class Rocket : MonoBehaviour
         {
             transform.Rotate(-Vector3.forward * rotationPerFrame);
         }
-
-        rb.freezeRotation = false; // Returns control of rotations to physics engine
     }
 }
